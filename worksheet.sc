@@ -1,43 +1,15 @@
-def qsort(xs: List[Int]): List[Int] = {
-  if (xs.size <= 1)
-    return xs
-  val left = xs.tail.filter( _ <= xs.head)
-  val right = xs.tail.filter( _ > xs.head)
-  qsort(left) ++ (xs.head :: qsort(right))
-}
 
-def msort(xs: List[Int], f: (Int, Int) => Boolean): List[Int] = {
-  def combine(l1: List[Int], l2: List[Int]): List[Int] = {
-    (l1, l2) match {
-      case (Nil, ys) => ys
-      case (xs, Nil) => xs
-      case (x::xs, y::ys) =>
-        if (f(x,y)) y::combine(l1, ys)
-        else x::combine(xs, l2)
-    }
-  }
-  if (xs.size <= 1) return xs
-  val (left, right) = xs.splitAt(xs.size / 2)
-  combine(msort(left, f), msort(right, f))
-}
-
-
-msort(List(1,5,2), {_ < _})
-
+Sorting.msort(List('c','a','q', 'r'))
+Sorting.msort(List(1,5,2))
+Sorting.msort(List("hjasfd","aadsf","qqasfd"))
 
 val hello = Array(Array(1,1), Array(0,0))
 
-
-
 val g1 = Map('a' -> Set('c','b', 'u'), 'c'-> Set('a','d'), 'd'-> Set('c','b'), 'b'-> Set('e'))
-
 val g2 = Map('+' -> Set('1','2'))
-
 type Vertex = Char
 type Graph = Map[Vertex, Set[Vertex]]
-
 type VertexDepth = (Vertex, Int)
-
 def dfs(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex], acc: List[Vertex]): List[Vertex] = {
   def dfs0(toVisit: List[Vertex], visited: Set[Vertex], acc: List[Vertex]): List[Vertex] = {
     toVisit match {
@@ -48,7 +20,6 @@ def dfs(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex], acc:
   }
   dfs0(List(start), Set(start), List())
 }
-
 def bfs(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex], acc: List[Vertex]): List[Vertex] = {
   def bfs0(toVisit: List[Vertex], visited: Set[Vertex], acc: List[Vertex]): List[Vertex] = {
     toVisit match {
@@ -59,7 +30,6 @@ def bfs(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex], acc:
   }
   bfs0(List(start), Set(start), List())
 }
-
 def dfs2(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex]): List[(Vertex, Int)] = {
   def dfs0(toVisit: List[Vertex], visited: Set[Vertex], d: Int): List[(Vertex, Int)] = {
     toVisit match {
@@ -78,7 +48,6 @@ def dfs2(start: Vertex, g: Graph, f: (List[Vertex], Vertex) => List[Vertex]): Li
     }
   }
 }
-
 def bfs2(start: Vertex, g: Graph, f: (List[VertexDepth], VertexDepth) => List[VertexDepth], acc: List[VertexDepth]): List[VertexDepth] = {
   def bfs0(toVisit: List[VertexDepth], visited: Set[Vertex], acc: List[VertexDepth]): List[VertexDepth] = {
     toVisit match {
@@ -89,21 +58,16 @@ def bfs2(start: Vertex, g: Graph, f: (List[VertexDepth], VertexDepth) => List[Ve
   }
   bfs0(List((start, 0)), Set(start), List())
 }
-
 def f(l: List[Vertex], i: Vertex) = {
   l ++ List(i)
 }
-
 def f2(l: List[VertexDepth], i: VertexDepth) = {
   l ++ List(i)
 }
 
 
 
-
-
 bfs('+', g2, f, List())
 dfs('+', g2, f, List())
-
 dfs2('a', g1, f)
 bfs2('a', g1, f2, List())
